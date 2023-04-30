@@ -1,0 +1,6 @@
+0 Bed
+1 Chair
+2 Clock
+3 Couch
+4 Dining Table
+5 Plant Pot

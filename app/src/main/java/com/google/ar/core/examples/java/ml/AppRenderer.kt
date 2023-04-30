@@ -28,6 +28,7 @@ import com.google.ar.core.examples.java.common.samplerender.SampleRender
 import com.google.ar.core.examples.java.common.samplerender.arcore.BackgroundRenderer
 import com.google.ar.core.examples.java.ml.classification.DetectedObjectResult
 import com.google.ar.core.examples.java.ml.classification.GoogleCloudVisionDetector
+import com.google.ar.core.examples.java.ml.classification.GoogleCloudVisionImage
 import com.google.ar.core.examples.java.ml.classification.MLKitObjectDetector
 import com.google.ar.core.examples.java.ml.classification.ObjectDetector
 import com.google.ar.core.examples.java.ml.render.LabelRender
@@ -63,7 +64,8 @@ class AppRenderer(val activity: MainActivity) : DefaultLifecycleObserver, Sample
   var scanButtonWasPressed = false
 
   val mlKitAnalyzer = MLKitObjectDetector(activity)
-  val gcpAnalyzer = GoogleCloudVisionDetector(activity)
+  //val gcpAnalyzer = GoogleCloudVisionDetector(activity)
+  val gcpAnalyzer = GoogleCloudVisionImage(activity)
 
   var currentAnalyzer: ObjectDetector = gcpAnalyzer
 
