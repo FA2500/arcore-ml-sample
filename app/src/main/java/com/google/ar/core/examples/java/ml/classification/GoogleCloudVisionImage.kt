@@ -1,5 +1,6 @@
 package com.google.ar.core.examples.java.ml.classification
 
+import android.graphics.Color
 import com.google.cloud.vision.v1.*
 import com.google.protobuf.ByteString
 import android.media.Image
@@ -50,15 +51,11 @@ import com.google.cloud.vision.v1.Image as GCVImage
 
          // Process result and map to DetectedObjectResult.
          val imagePropertiesResult = response.responsesList.first().imagePropertiesAnnotation
+         val cropPropertiesResult = response.responsesList.first().cropHintsAnnotation
 
-         val r1 = imagePropertiesResult.dominantColors.colorsList.first().color.red.toFloat() / 255
-         val g1 = imagePropertiesResult.dominantColors.colorsList.first().color.green.toFloat() / 255
-         val b1 = imagePropertiesResult.dominantColors.colorsList.first().color.blue.toFloat() / 255
-         val s1 = imagePropertiesResult.dominantColors.colorsList.first().score
-         val p1 = imagePropertiesResult.dominantColors.colorsList.first().pixelFraction
+         //Log.d("COLORS 2", "(${s1}, ${r1}, ${g1}, ${b1}, ${p1})")
 
-         Log.d("COLORS 2", "(${s1}, ${r1}, ${g1}, ${b1}, ${p1})")
-
+         Log.d("COLORS", getMostCol(imagePropertiesResult.dominantColors.colorsList))
          return imagePropertiesResult.dominantColors.colorsList.map {
              val color = it.color
              val r = color.red.toFloat() / 255
@@ -66,9 +63,25 @@ import com.google.cloud.vision.v1.Image as GCVImage
              val b = color.blue.toFloat() / 255
              val score = it.score
              val pixelFraction = it.pixelFraction
-             Log.d("COLORS", "(${r}, ${g}, ${b}, ${pixelFraction})")
-             DetectedObjectResult(score, "(${r}, ${g}, ${b}, ${pixelFraction})",Pair(0, 0) )
+             DetectedObjectResult(score, "(${r}, ${g}, ${b}, ${pixelFraction})",Pair(0,0) )
          }
+
+
+     }
+
+     private fun getMostCol(ColorArray: List<ColorInfo>): String {
+         var mostCon = 0.0f;
+         var mostCounter = 0;
+         for((index,col) in ColorArray.withIndex())
+         {
+             if(col.score > mostCon)
+             {
+                 mostCon = col.score
+                 mostCounter = index
+             }
+             //Log.d("COLORS 2", getColorNameFromRgb(ColorArray.get(index).color.red,ColorArray.get(index).color.green,ColorArray.get(index).color.blue, ColorArray.get(index).score))
+         }
+         return ColorArray.get(mostCounter).allFields.toString()
 
 
      }
@@ -82,5 +95,6 @@ import com.google.cloud.vision.v1.Image as GCVImage
              .addFeatures(features)
              .build()
      }
+
 
  }
